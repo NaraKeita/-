@@ -9,7 +9,10 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <vector>
+<<<<<<< HEAD
 #include "DebugCamera.h"
+=======
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 
 /// <summary>
 /// ゲームシーン
@@ -61,6 +64,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 	// 自キャラ
 	Block* block_ = nullptr;
+<<<<<<< HEAD
 
 	Model* modelBlock_ = nullptr;
 	
@@ -73,4 +77,8 @@ private: // メンバ変数
 
 	//デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
+=======
+	
+	std::vector<WorldTransform*> worldTransformBlocks_;
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 };

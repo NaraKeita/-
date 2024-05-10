@@ -7,21 +7,30 @@
 
 // デストラクタ
 GameScene::GameScene() { delete model_;
+<<<<<<< HEAD
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
 			delete worldTransformBlock;
 		}
+=======
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		delete worldTransformBlock;
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 	}
 	worldTransformBlocks_.clear();
 }
 
+<<<<<<< HEAD
 GameScene::~GameScene() {
 	delete block_;
 	delete debugCamera_;
 	worldTransformBlocks_.clear();
 }
+=======
+GameScene::~GameScene() { delete block_; }
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 
 void GameScene::Initialize() {
 
@@ -40,6 +49,7 @@ void GameScene::Initialize() {
 	block_ = new Block();
 	// 自キャラの初期化
 	block_->Initialize(model_, textureHandle_, &viewProjection_);
+<<<<<<< HEAD
 
 	modelBlock_ = Model::CreateFromOBJ("cube");
 
@@ -69,11 +79,29 @@ void GameScene::Initialize() {
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHight * i;
 		}
 	}
+=======
+	//要素数
+	const uint32_t kNumBlockHorizontal = 20;
+	//ブロック一個分の横幅
+	const float kBlockWidth = 2.0f;
+	//要素数を変更する
+	worldTransformBlocks_.resize(kNumBlockHorizontal);
+
+	//キューブの生成
+	for (uint32_t i = 0; i < kNumBlockHorizontal; i++) {
+		worldTransformBlocks_[i] = new WorldTransform();
+		worldTransformBlocks_[i]->Initialize();
+		worldTransformBlocks_[i]->translation_.x = kBlockWidth * i;
+		worldTransformBlocks_[i]->translation_.y = 0.0f;
+	}
+
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 }
 
 void GameScene::Update() {
 	// 自キャラの更新
 	block_->Update();
+<<<<<<< HEAD
 	//デバッグカメラの更新
 	debugCamera_->Update();
 	#ifdef _DEBUG
@@ -87,13 +115,22 @@ void GameScene::Update() {
 			if (!worldTransformBlock)
 				continue;
 			/* worldTransformBlocks_[0] = 1;
+=======
+	//ブロックの更新
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		/*worldTransformBlocks_[0] = 1;
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 		worldTransformBlocks_[1] = 2;
 		worldTransformBlocks_[2] = 3;
 		worldTransformBlocks_[3] = 4;*/
 
+<<<<<<< HEAD
 		// worldTransformBlock->UpdateMatrix();
 
 		// 平行移動
+=======
+		//平行移動
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 		Matrix4x4 result{
 		    1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
@@ -101,6 +138,7 @@ void GameScene::Update() {
 			worldTransformBlock->translation_.x,
 			worldTransformBlock->translation_.y,
 			worldTransformBlock->translation_.z,
+<<<<<<< HEAD
 		    1.0f};
 		// 平行移動だけ代入
 		worldTransformBlock->matWorld_ = result;
@@ -108,6 +146,15 @@ void GameScene::Update() {
 		worldTransformBlock->TransferMatrix();
 	    }
     }
+=======
+		    1.0f
+		};
+		//平行移動だけ代入
+		worldTransformBlock->matWorld_ = result;
+		//定数バッファに転送する
+		worldTransformBlock->TransferMatrix();
+	}
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 }
 
 void GameScene::Draw() {
@@ -133,6 +180,7 @@ void GameScene::Draw() {
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
 
+<<<<<<< HEAD
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 		if (!worldTransformBlock)
@@ -141,6 +189,8 @@ void GameScene::Draw() {
 	    }
     }
 
+=======
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
@@ -149,11 +199,21 @@ void GameScene::Draw() {
 	block_->Draw();
 
 	//ブロックの描画
+<<<<<<< HEAD
 	/*for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
 		delete worldTransformBlock;
 	}*/
 	
 	
+=======
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		delete worldTransformBlock;
+	}
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		model_->Draw(*worldTransformBlock, viewProjection_);
+	}
+	worldTransformBlocks_.clear();
+>>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
