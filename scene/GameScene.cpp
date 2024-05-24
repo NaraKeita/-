@@ -93,6 +93,8 @@ void GameScene::Update() {
 			worldTransformBlock->TransferMatrix();
 		}
 	}
+
+
  #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_D)) {
 		isDebugCameraActive_ = !isDebugCameraActive_;
@@ -139,7 +141,7 @@ void GameScene::Draw() {
 			if (!worldTransformBlock) 
 				continue;
 			
-			modelBlock_->Draw(*worldTransformBlock, debugCamera_->GetViewProjection());
+			modelBlock_->Draw(*worldTransformBlock,viewProjection_);
 		}
 	}
 
