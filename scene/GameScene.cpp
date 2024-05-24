@@ -175,8 +175,6 @@ void GameScene::Draw() {
 		}
 	}
 	
-	//modelSkydome_->Draw(worldTransform, debugCamera_->GetViewProjection());
-
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
