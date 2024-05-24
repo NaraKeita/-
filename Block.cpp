@@ -14,9 +14,8 @@ void Block::Update() {
 }
 
 void Block::Draw() { 
-<<<<<<< HEAD
 	//model_->Draw(worldTransform_, *viewProjection_, textureHandle_);
-=======
+
 	model_->Draw(worldTransform_, *viewProjection_, textureHandle_);
->>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
+
 }

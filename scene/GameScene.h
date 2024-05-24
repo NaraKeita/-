@@ -4,15 +4,14 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
-#include "Block.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include <vector>
-<<<<<<< HEAD
-#include "DebugCamera.h"
-=======
->>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
+#include"Player.h"
+#include"Skydome.h"
+#include<vector>
+#include"DebugCamera.h"
+#include "GameScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -20,6 +19,9 @@
 class GameScene {
 
 public: // メンバ関数
+	Sprite* sprite_ = nullptr;
+	bool isDebugCameraActive_ = false;
+
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -49,36 +51,26 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	uint32_t textureHandle_ = 0;
+	//自キャラ
+	Player* player_ = nullptr;
+	//スカイドームキャラ
+	Skydome* skydome_ = nullptr;
+
+	Model* modelBlock_ = nullptr;
+
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
+	Model* model_ = nullptr;
+
+	ViewProjection viewProjection_;
+
+	DebugCamera* debugCamera_ = nullptr;
+
+	//3Dモデル
+	Model* modelSkydome_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-
-	// テキスチャハンドル
-	uint32_t textureHandle_ = 0;
-	// モデル
-	Model* model_ = nullptr;
-	//
-	WorldTransform worldTransform_;
-	// ビュープロジェクション
-	ViewProjection viewProjection_;
-	// 自キャラ
-	Block* block_ = nullptr;
-<<<<<<< HEAD
-
-	Model* modelBlock_ = nullptr;
-	
-	//std::vector<WorldTransform*> worldTransformBlocks_;
-
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-
-	//デバッグカメラ有効
-	bool isDebugCameraActive_ = false;
-
-	//デバッグカメラ
-	DebugCamera* debugCamera_ = nullptr;
-=======
-	
-	std::vector<WorldTransform*> worldTransformBlocks_;
->>>>>>> 1636c01c0139319c35fc1f9b4ea00a54051bfd02
 };
