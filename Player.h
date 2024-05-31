@@ -5,7 +5,7 @@
 
 class Player {
 public:
-	void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+	void Initialize(Model* model, /*uint32_t textureHandle,*/ ViewProjection* viewProjection);
 	void Update();
 	void Draw();
 
@@ -15,6 +15,6 @@ private:
 	//モデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
+	//uint32_t textureHandle_ = 0u;
 	ViewProjection* viewProjection_ = nullptr;
 };

@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	textureHandle_ = TextureManager::Load("playar.png");
+	
 	sprite_ = Sprite::Create(textureHandle_, {100, 50});
 
 	//自キャラの生成
@@ -38,22 +38,23 @@ void GameScene::Initialize() {
 	//スカイドームの生成
 	skydome_ = new Skydome();
 
-//	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("player",true);
 
 	//3Dモデルの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクションの初期化
+	viewProjection_.farZ;
 	viewProjection_.Initialize();
 
 	//自キャラの初期化
-	player_->Initialize(model_, textureHandle_, &viewProjection_);
+	player_->Initialize(model_, &viewProjection_);
 
 	//スカイドームの初期化
-	skydome_->Initialize(model_,&viewProjection_);
+	skydome_->Initialize(modelSkydome_,&viewProjection_);
 
-	// 3Dモデルの生成(player)
-	modelBlock_ = Model::CreateFromOBJ("cube");
+	// 3Dモデルの生成(block)
+	modelBlock_ = Model::CreateFromOBJ("block");
 
 	//3Dモデルの生成(skydome)
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -118,7 +119,7 @@ void GameScene::Update() {
 
 			worldTransformBlock->matWorld_ = result;
 
-			worldTransformBlock->TransferMatrix();
+			worldTransformBlock->UpdateMatrix();
 		}
 	}
 
