@@ -49,7 +49,10 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	//自キャラの初期化
-	player_->Initialize(model_, &viewProjection_);
+	//player_->Initialize(model_, &viewProjection_);
+
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	//スカイドームの初期化
 	skydome_->Initialize(modelSkydome_,&viewProjection_);
