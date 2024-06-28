@@ -16,6 +16,8 @@ public:
 	void Draw();
 	Vector3 velocity_ = {};
 	LRDirection lrDirection_ = LRDirection::kRight;
+	//接地状態フラグ
+	bool onGround_ = true;
 
 private:
 	//ワールド変換データ
@@ -31,6 +33,13 @@ private:
 	static inline const float kLimitRunSpeed = 0.2f;
 	//旋回時間(秒)
 	static inline const float kTimeTurn = 0.3f;
+	//重力加速度（下方向）
+	static inline const float kGravityAcceleration = 0.1f;//ジャンプの高さが変わる
+	//最大加速度（下方向）
+	static inline const float kLimitFallSpeed = 0.7f;//ジャンプし終わって落ちるときの速度が変わる
+	//ジャンプ初速（上方向）
+	static inline const float kJumpAcceleration = 0.5f;//ジャンプの高さが変わる
+	
 
 	//旋回開始時の角度
 	float turnFirstRotationY_ = 0.0f;
