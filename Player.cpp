@@ -101,11 +101,8 @@ void Player::Update() {
 		
 	}
 
-
 	//移動
 	worldTransform_.translation_ += velocity_;
-
-	
 
 	//旋回制御
 	if (turnTimer_ > 0.0f) {

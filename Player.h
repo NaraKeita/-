@@ -19,6 +19,10 @@ public:
 	//接地状態フラグ
 	bool onGround_ = true;
 
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
+	const Vector3& GetVelocity() const { return velocity_; }
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
