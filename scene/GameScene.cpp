@@ -40,8 +40,6 @@ void GameScene::Initialize() {
 	//スカイドームの生成
 	skydome_ = new Skydome();
 
-	
-
 	model_ = Model::CreateFromOBJ("player",true);
 
 	//3Dモデルの生成
@@ -51,8 +49,8 @@ void GameScene::Initialize() {
 	viewProjection_.farZ;
 	viewProjection_.Initialize();
 
-	//自キャラの初期化
-	//player_->Initialize(model_, &viewProjection_,position);
+	//自キャラの生成と初期化
+	player_->SetMapChipField(mapChipField_);
 
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
