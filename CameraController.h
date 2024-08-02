@@ -2,6 +2,8 @@
 #include "ViewProjection.h"
 #include "Player.h"
 
+class Player;
+
 struct Rect {
 	float left = 0.0f;   //左端
 	float right = 1.0f;  //右端
@@ -35,4 +37,3 @@ private:
 	static inline const Rect margen = {-320, 320, -200, 200};
 };
 
-class Player;
