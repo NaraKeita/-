@@ -73,7 +73,7 @@ namespace {
 	 IndexSet indexSet = {};
 	 indexSet.xIndex = static_cast<uint32_t>((position.x + kBlockWidth / 2) / kBlockWidth);
 	 indexSet.yIndex = kNumBlockVirtical - 1 - static_cast<uint32_t>((position.y + kBlockHeight / 2) / kBlockHeight);
-	 return IndexSet();
+	 return indexSet;
  }
 
  /*MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position) { 

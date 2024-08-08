@@ -20,8 +20,8 @@ public:
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 	
-	/*void HitCeiling(const CollisionMapInfo& collisionMapInfo);
-	void CheckMapCollisionDown(CollisionMapInfo& info);
+	
+	/*void CheckMapCollisionDown(CollisionMapInfo& info);
 	void CheckMapCollisionRight(CollisionMapInfo& info);
 	void CheckMapCollisionLeft(CollisionMapInfo& info);*/
 
@@ -96,15 +96,23 @@ private:
 
 	// マップ衝突判定
 	void CheckMapCollision(CollisionMapInfo& info);
+	void HitCeiling(const CollisionMapInfo& info);//接地状態の切り替え処理
 	void CheckMapCollisionUp(CollisionMapInfo& info);
+	void CheckMapCollisionDown(CollisionMapInfo& info);
 
 	// ③判定結果を反映して移動させる
 	void CheckMapMove(CollisionMapInfo& info);
 	// ④天井に接触している場合の処理
 	void CheckMapCeiling(CollisionMapInfo& info);
-
+	//// ⑤壁に接触している場合の処理
+	//void CheckMapWall(CollisionMapInfo& info);
+	//// ⑥接地状態の切り替え処理
+	//void CheckMapLanding(CollisionMapInfo& info);
+	
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	static inline const float kBlank = 0.04f;
+	//着地時の速度減衰率
+	static inline const float kAttenuationLanding = 0.2f;
 	// ⑦旋回制御
 	void AnimateTurn();
 };

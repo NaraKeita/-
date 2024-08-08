@@ -31,11 +31,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	
 	sprite_ = Sprite::Create(textureHandle_, {100, 50});
-
-	//自キャラの生成
-	player_ = new Player();
 
 	//スカイドームの生成
 	skydome_ = new Skydome();
@@ -48,12 +44,6 @@ void GameScene::Initialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.farZ;
 	viewProjection_.Initialize();
-
-	//自キャラの生成と初期化
-	player_->SetMapChipField(mapChipField_);
-
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
-	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	//スカイドームの初期化
 	skydome_->Initialize(modelSkydome_,&viewProjection_);
@@ -73,7 +63,6 @@ void GameScene::Initialize() {
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
 
-	
 	/*const float kBlockWodth = 2.0f;
 	const float kBlockHeight = 2.0f;*/
 
@@ -85,6 +74,13 @@ void GameScene::Initialize() {
 	}
 
 	debugCamera_ = new DebugCamera(kNumBlockHorizontal, kNumBlockVirtical);
+
+	// 自キャラの生成
+	player_ = new Player();
+	// 自キャラの生成と初期化
+	player_->SetMapChipField(mapChipField_);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	//カメラ
 	cameraController_ = new CameraController();
