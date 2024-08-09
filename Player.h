@@ -45,6 +45,8 @@ public:
 
 	void OnCollision(const Enemy* enemy);
 
+	Vector3 GetWorldPosition();
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -121,9 +123,6 @@ private:
 	
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	static inline const float kBlank = 0.04f;
-	
-	//ワールド座標を取得
-	Vector3 GetWorldPosition();
 
 	// ⑦旋回制御
 	void AnimateTurn();

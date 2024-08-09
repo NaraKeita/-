@@ -16,7 +16,7 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	delete modelEnemy_;
 	delete modelSkydome_;
-	
+	delete modelDeathParticle_;
 	delete mapChipField_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
@@ -28,12 +28,17 @@ GameScene::~GameScene() {
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
+	
+	for (DeathParticles* deathParticles : deathPartiy_) {
+		delete deathParticles;
+	}
 
 	worldTransformBlocks_.clear();
 }
 
 //初期化
 void GameScene::Initialize() {
+	
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -56,6 +61,8 @@ void GameScene::Initialize() {
 
 	//スカイドームの初期化
 	skydome_->Initialize(modelSkydome_,&viewProjection_);
+
+	
 
 	// 3Dモデルの生成(block)
 	modelBlock_ = Model::CreateFromOBJ("block");
@@ -94,10 +101,18 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 
+	player_->Update();
+	Vector3 position = player_->GetWorldPosition();
+
 	//雑魚敵の生成
 	enemy_ = new Enemy();
 	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(9, 18);
 	enemy_->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
+
+	modelDeathParticle_ = Model::CreateFromOBJ("DeathParticle", true);
+	// 仮の生成処理。後で消す
+	deathParticles_ = new DeathParticles;
+	deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, position);
 
 	//カメラ
 	cameraController_ = new CameraController();
@@ -125,6 +140,7 @@ void GameScene::Update() {
 
 	//自キャラの更新
 	player_->Update();
+	//Vector3 position = player_->GetWorldPosition();
 	//雑魚敵の更新
 	enemy_->Update();
 	//スカイドームの更新
@@ -161,6 +177,10 @@ void GameScene::Update() {
 	//敵の更新
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
+	}
+
+	if (deathParticles_) {
+		deathParticles_->Update();
 	}
 
 	//全ての当たり判定を行う
@@ -228,6 +248,10 @@ void GameScene::Draw() {
 	//敵の更新
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw();
+	}
+
+	if (deathParticles_) {
+		deathParticles_->Draw();
 	}
 	
 	/// <summary>
