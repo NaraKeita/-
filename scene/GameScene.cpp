@@ -1,9 +1,9 @@
 #include "GameScene.h"
-#include "Model.h"
+//#include "Model.h"
 #include "TextureManager.h"
-#include "WorldTransform.h"
+//#include "WorldTransform.h"
 #include <cassert>
-#include "CameraController.h"
+//#include "CameraController.h"
 
 GameScene::GameScene() {}
 
@@ -24,9 +24,15 @@ GameScene::~GameScene() {
 			delete worldTransformBlock;
 		}
 	}
+
+	for (Enemy* enemy : enemies_) {
+		delete enemy;
+	}
+
 	worldTransformBlocks_.clear();
 }
 
+//初期化
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -101,8 +107,16 @@ void GameScene::Initialize() {
 
 	Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
+
+	for (int32_t i = 0; i < 3; ++i) {
+		Enemy* newEnemy = new Enemy();
+		enemyPosition = mapChipField_->GetMapChipPositionByIndex(11 + i * 3, 18 - i);
+		newEnemy->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
+		enemies_.push_back(newEnemy);
+	}
 }
 
+//更新
 void GameScene::Update() {
 	Vector2 position = sprite_->GetPosition();
 	position.x += 2.0f;
@@ -143,6 +157,14 @@ void GameScene::Update() {
 			worldTransformBlock->UpdateMatrix();
 		}
 	}
+
+	//敵の更新
+	for (Enemy* enemy : enemies_) {
+		enemy->Update();
+	}
+
+	//全ての当たり判定を行う
+	CheckAllCollisions();
 
     #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -202,6 +224,11 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock,viewProjection_);
 		}
 	}
+
+	//敵の更新
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw();
+	}
 	
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
@@ -223,6 +250,29 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::CheckAllCollisions() {
+	#pragma region 
+	{
+		//判定対象１と２の座標
+		AABB aabb1, aabb2;
+		//自キャラの座標
+		aabb1 = player_->GetAABB();
+		//自キャラと敵弾全ての当たり判定
+		for (Enemy* enemy : enemies_) {
+		    //敵弾の座標
+			aabb2 = enemy->GetAABB();
+			//AABB動詞の交差判定
+			if (IsCollision(aabb1, aabb2)) {
+			    //自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision(enemy_);
+				//敵弾の衝突自コールバックを呼び出す
+				enemy_->OnCollision(player_);
+			}
+		}
+	}
+	#pragma endregion
 }
 
 void GameScene::GenerateBlocks() {

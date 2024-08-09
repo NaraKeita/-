@@ -2,10 +2,12 @@
 #include "WorldTransform.h"
 #include "MathUtilityForText.h"
 #include "ViewProjection.h"
+#include "AABB.h"
 
 #pragma once
 
 class MapChipField;
+class Enemy;
 
 class Player {
 public:
@@ -38,6 +40,10 @@ public:
 	const Vector3& GetVelocity() const { return velocity_; }
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+	//AABBを取得
+	AABB GetAABB();
+
+	void OnCollision(const Enemy* enemy);
 
 private:
 	//ワールド変換データ
@@ -116,6 +122,9 @@ private:
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	static inline const float kBlank = 0.04f;
 	
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 	// ⑦旋回制御
 	void AnimateTurn();
 };
