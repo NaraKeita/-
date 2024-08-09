@@ -20,6 +20,8 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
         1.0f
     };
 
+   
+
     //回転
 	Matrix4x4 RotateMatY{
         cosf(rot.y), 0, -sinf(rot.y), 0,
@@ -28,7 +30,17 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
         0, 0, 0, 1
     };
 
-    Matrix4x4 ansMat = MatrixMultipty(RotateMatY, TranslateMat);
+     // 回転
+	Matrix4x4 RotateMatX{
+        1, 0, 0, 0,
+        0, cosf(rot.x), sinf(rot.x), 0,
+        0, -sinf(rot.x), cosf(rot.x), 0,
+        0, 0, 0, 1
+    };
+	// x軸回転*Y軸回転で回転行列を合成
+	Matrix4x4 RotateMatAll = MatrixMultipty(RotateMatX, RotateMatY);
+    //回転*平行移動だけをワールド変換行列に
+	Matrix4x4 ansMat = MatrixMultipty(RotateMatAll, TranslateMat);
 
 	return ansMat;
 }

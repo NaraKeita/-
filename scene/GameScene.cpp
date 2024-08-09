@@ -14,7 +14,9 @@ GameScene::~GameScene() {
 	delete model_;
 	delete modelBlock_;
 	delete debugCamera_;
+	delete modelEnemy_;
 	delete modelSkydome_;
+	
 	delete mapChipField_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
@@ -36,6 +38,7 @@ void GameScene::Initialize() {
 	//スカイドームの生成
 	skydome_ = new Skydome();
 
+	//プレイヤー
 	model_ = Model::CreateFromOBJ("player",true);
 
 	//3Dモデルの生成
@@ -53,6 +56,9 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成(skydome)
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
+	//3Dモデルの生成(Enemy)
+	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
@@ -82,6 +88,11 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 
+	//雑魚敵の生成
+	enemy_ = new Enemy();
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(9, 18);
+	enemy_->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
+
 	//カメラ
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();
@@ -100,9 +111,13 @@ void GameScene::Update() {
 
 	//自キャラの更新
 	player_->Update();
+	//雑魚敵の更新
+	enemy_->Update();
+	//スカイドームの更新
 	skydome_->Update();
+	//カメラコントローラーの更新
 	cameraController_->Updata();
-	
+	//デバックカメラの更新
 	debugCamera_->Update();
 
 	for (std::vector<WorldTransform*>& worldTransformBlocksLine : worldTransformBlocks_) {
@@ -175,6 +190,8 @@ void GameScene::Draw() {
 	// sprite_->Draw();
 	//自キャラの描画
 	player_->Draw();
+	//雑魚敵の描画
+	enemy_->Draw();
 	//スカイドームの描画
 	skydome_->Draw();
 

@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include"Player.h"
+#include "Enemy.h"
 #include"Skydome.h"
 #include<vector>
 #include"DebugCamera.h"
@@ -58,14 +59,18 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	//自キャラ
 	Player* player_ = nullptr;
+	//雑魚敵
+	Enemy* enemy_ = nullptr;
 	//スカイドームキャラ
 	Skydome* skydome_ = nullptr;
-
+	//ブロック
 	Model* modelBlock_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-
+	//プレイヤーのモデル
 	Model* model_ = nullptr;
+	//雑魚敵のモデル
+	Model* modelEnemy_ = nullptr;
 
 	ViewProjection viewProjection_;
 
