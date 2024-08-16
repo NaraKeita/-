@@ -22,9 +22,18 @@
 /// </summary>
 class GameScene {
 
-public: // メンバ関数
+public: // メンバ関数（型）
 	Sprite* sprite_ = nullptr;
 	bool isDebugCameraActive_ = false;
+
+	//ゲームのフェーズ
+	enum class Phase {
+		kPlay,    //ゲームプレイ
+		kDeath,   //デス演出
+	};
+
+	//ゲームの現在フェーズ（変数）
+	Phase phase_;
 
 	/// <summary>
 	/// コンストクラタ
@@ -56,7 +65,14 @@ public: // メンバ関数
 	//全ての当たり判定を行う
 	void CheckAllCollisions();
 
+	void ChangePhase();
+
+	// デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 private: // メンバ変数
+	// 終了フラグ
+	bool finished_ = false;
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;

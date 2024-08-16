@@ -38,8 +38,8 @@ GameScene::~GameScene() {
 
 //初期化
 void GameScene::Initialize() {
-	
-
+	//ゲームプレイフェーズから開始
+	phase_ = Phase::kPlay;
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -100,19 +100,15 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
-
-	player_->Update();
-	Vector3 position = player_->GetWorldPosition();
+	
 
 	//雑魚敵の生成
-	enemy_ = new Enemy();
+	
 	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(9, 18);
-	enemy_->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
+	
 
 	modelDeathParticle_ = Model::CreateFromOBJ("DeathParticle", true);
-	// 仮の生成処理。後で消す
-	deathParticles_ = new DeathParticles;
-	deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, position);
+	
 
 	//カメラ
 	cameraController_ = new CameraController();
@@ -133,6 +129,26 @@ void GameScene::Initialize() {
 
 //更新
 void GameScene::Update() {
+
+	switch (phase_) {
+	case Phase::kPlay:
+		if (player_->IsDead() == true) {
+			phase_ = Phase::kDeath;
+			//
+			const Vector3 deathParticlePosition = player_->GetWorldPosition();
+			
+			deathParticles_ = new DeathParticles;
+			Vector3 position = player_->GetWorldPosition();
+			deathParticles_->Initialize(modelDeathParticle_, &viewProjection_, position);
+		}
+		break;
+	case Phase::kDeath:
+		if (deathParticles_ && deathParticles_->IsFinished()) {
+			finished_ = true;
+		}
+		break;
+	}
+
 	Vector2 position = sprite_->GetPosition();
 	position.x += 2.0f;
 	position.y += 1.0f;
@@ -140,9 +156,6 @@ void GameScene::Update() {
 
 	//自キャラの更新
 	player_->Update();
-	//Vector3 position = player_->GetWorldPosition();
-	//雑魚敵の更新
-	enemy_->Update();
 	//スカイドームの更新
 	skydome_->Update();
 	//カメラコントローラーの更新
@@ -232,8 +245,6 @@ void GameScene::Draw() {
 	// sprite_->Draw();
 	//自キャラの描画
 	player_->Draw();
-	//雑魚敵の描画
-	enemy_->Draw();
 	//スカイドームの描画
 	skydome_->Draw();
 

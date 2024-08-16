@@ -47,6 +47,11 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	//デスフラグ
+	bool isDead_ = false;
+	// デスフラグのgetter
+	bool IsDead() const { return isDead_; }
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;

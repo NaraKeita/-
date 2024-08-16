@@ -10,6 +10,8 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
     dm = scale;
     dm = rot;
 
+   
+
     //平行移動
 	Matrix4x4 TranslateMat{
         1.0f, 0.0f, 0.0f, 0.0f,
@@ -42,6 +44,18 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
 	Matrix4x4 RotateMatAll = MatrixMultipty(RotateMatX, RotateMatY);
     //回転*平行移動だけをワールド変換行列に
 	Matrix4x4 ansMat = MatrixMultipty(RotateMatAll, TranslateMat);
+
+     // スケール
+	Matrix4x4 ScallMat = {
+        scale.x, 0, 0, 0,
+        0, scale.y, 0, 0,
+        0, 0, scale.z, 0,
+        0, 0, 0, 1
+    };
+
+	// 拡大*回転*平行移動でワールド変換行列に
+	ansMat = MatrixMultipty(ScallMat, RotateMatAll);
+	ansMat = MatrixMultipty(ansMat, TranslateMat);
 
 	return ansMat;
 }
