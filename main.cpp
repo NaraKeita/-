@@ -7,12 +7,16 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "TitleScene.h"
+#include "ClearScene.h"
+#include "Explanation.h"
 
 //シーン（型）
 enum class Scene {
 	kUnknown = 0,
 	kTitle,
+	kExplanation,
 	kGame,
+	kClear,
 };
 
 //現在シーン（型）
@@ -24,6 +28,8 @@ void DrawScene();
 
 GameScene* gameScene = nullptr;
 TitleScene* titleScene = nullptr;
+Explanation* explanation = nullptr;
+ClearScene* clearScene = nullptr;
 
 //START
 
@@ -116,6 +122,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 各種解放
 	delete gameScene;
 	delete titleScene;
+	delete explanation;
+	delete clearScene;
 
 	// 3Dモデル解放
 	Model::StaticFinalize();
@@ -135,11 +143,23 @@ void ChangeScene() {
 	case Scene::kTitle:
 		if (titleScene->IsFinished()) {
 		//シーン変更
-			scene = Scene::kGame;
+			scene = Scene::kExplanation;
 			//旧シーンの開放
 			delete titleScene;
 			titleScene = nullptr;
 			//新シーンの生成と初期化
+			explanation = new Explanation;
+			explanation->Initialize();
+		}
+		break;
+	case Scene::kExplanation:
+		if (explanation->IsFinished()) {
+			// シーン変更
+			scene = Scene::kGame;
+			// 旧シーンの開放
+			delete explanation;
+			explanation = nullptr;
+			// 新シーンの生成と初期化
 			gameScene = new GameScene;
 			gameScene->Initialize();
 		}
@@ -147,10 +167,22 @@ void ChangeScene() {
 	case Scene::kGame:
 		if (gameScene->IsFinished()) {
 		//シーン変更
-			scene = Scene::kTitle;
+			scene = Scene::kClear;
 			//旧シーンの開放
 			delete gameScene;
 			gameScene = nullptr;
+			// 新シーンの生成と初期化
+			clearScene = new ClearScene;
+			clearScene->Initialize();
+		}
+		break;
+	case Scene::kClear:
+		if (clearScene->IsFinished()) {
+			// シーン変更
+			scene = Scene::kTitle;
+			// 旧シーンの開放
+			delete clearScene;
+			clearScene = nullptr;
 			// 新シーンの生成と初期化
 			titleScene = new TitleScene;
 			titleScene->Initialize();
@@ -165,8 +197,14 @@ void UpdateScene() {
 	case Scene::kTitle:
 		titleScene->Update();
 		break;
+	case Scene::kExplanation:
+		explanation->Update();
+		break;
 	case Scene::kGame:
 		gameScene->Update();
+		break;
+	case Scene::kClear:
+		clearScene->Update();
 		break;
 	}
 }
@@ -177,8 +215,14 @@ void DrawScene() {
 	case Scene::kTitle:
 		titleScene->Draw();
 		break;
+	case Scene::kExplanation:
+		explanation->Draw();
+		break;
 	case Scene::kGame:
 		gameScene->Draw();
+		break;
+	case Scene::kClear:
+		clearScene->Draw();
 		break;
 	}
 }

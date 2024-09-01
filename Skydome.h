@@ -25,9 +25,7 @@ public:
 	    WorldTransform worldTransform_;
 		//モデル
 	    Model* model_ = nullptr;
-
 		Model* modelSkydome_ = nullptr;
 	    // テクスチャハンドル
-	   
 		ViewProjection* viewProjection_ = nullptr;
 };

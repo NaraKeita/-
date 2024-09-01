@@ -1,37 +1,34 @@
 #pragma once
-#include "Input.h"
-#include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DirectXCommon.h"
 #include"Skydome.h"
+#include "Input.h"
 
-class TitleScene {
+class Explanation {
 public:
-	TitleScene();
-	~TitleScene();
+	Explanation();
+	~Explanation();
 	void Initialize();
 	void Update();
 	void Draw();
 
-	//デスフラグのgetter
+	// デスフラグのgetter
 	bool IsFinished() const { return finished_; }
 
 private:
-	//終了フラグ
+	// 終了フラグ
 	bool finished_ = false;
 	Model* modelFont_ = nullptr;
-	//Model* modelFontSpace_ = nullptr;
-	Model* modelPlayer_ = nullptr;
-	
+
 	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
 
-	//ビュープロジェクション
+	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
 	WorldTransform worldTransformFont_;
-	//WorldTransform worldTransformFontSpace_;
+	// WorldTransform worldTransformFontSpace_;
 	WorldTransform worldTransformPlayer_;
 
 	DirectXCommon* dxCommon_ = nullptr;

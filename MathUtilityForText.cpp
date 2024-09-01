@@ -10,8 +10,6 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
     dm = scale;
     dm = rot;
 
-   
-
     //平行移動
 	Matrix4x4 TranslateMat{
         1.0f, 0.0f, 0.0f, 0.0f,
@@ -22,8 +20,6 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
         translate.z,
         1.0f
     };
-
-   
 
     //回転
 	Matrix4x4 RotateMatY{

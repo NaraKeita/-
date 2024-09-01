@@ -4,34 +4,31 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DirectXCommon.h"
-#include"Skydome.h"
 
-class TitleScene {
+class ClearScene {
 public:
-	TitleScene();
-	~TitleScene();
+	ClearScene();
+	~ClearScene();
 	void Initialize();
 	void Update();
 	void Draw();
 
-	//デスフラグのgetter
+	// デスフラグのgetter
 	bool IsFinished() const { return finished_; }
 
 private:
-	//終了フラグ
+	// 終了フラグ
 	bool finished_ = false;
 	Model* modelFont_ = nullptr;
-	//Model* modelFontSpace_ = nullptr;
 	Model* modelPlayer_ = nullptr;
-	
+
 	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
 
-	//ビュープロジェクション
+	// ビュープロジェクション
 	ViewProjection viewProjection_;
 
 	WorldTransform worldTransformFont_;
-	//WorldTransform worldTransformFontSpace_;
 	WorldTransform worldTransformPlayer_;
 
 	DirectXCommon* dxCommon_ = nullptr;

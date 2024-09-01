@@ -62,13 +62,8 @@ void GameScene::Initialize() {
 	//スカイドームの初期化
 	skydome_->Initialize(modelSkydome_,&viewProjection_);
 
-	
-
 	// 3Dモデルの生成(block)
 	modelBlock_ = Model::CreateFromOBJ("block");
-
-	//3Dモデルの生成(skydome)
-	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	//3Dモデルの生成(Enemy)
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
@@ -101,15 +96,11 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 	
-
 	//雑魚敵の生成
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(19, 700);
 	
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(9, 18);
-	
-
 	modelDeathParticle_ = Model::CreateFromOBJ("DeathParticle", true);
 	
-
 	//カメラ
 	cameraController_ = new CameraController();
 	cameraController_->Initialize();
@@ -119,12 +110,12 @@ void GameScene::Initialize() {
 	Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
 
-	for (int32_t i = 0; i < 3; ++i) {
+	//for (int32_t i = 0; i < 1; ++i) {
 		Enemy* newEnemy = new Enemy();
-		enemyPosition = mapChipField_->GetMapChipPositionByIndex(11 + i * 3, 18 - i);
+		enemyPosition = mapChipField_->GetMapChipPositionByIndex(97/* + i * 3*/, 18/* - i*/);
 		newEnemy->Initialize(modelEnemy_, &viewProjection_, enemyPosition);
 		enemies_.push_back(newEnemy);
-	}
+	//}
 }
 
 //更新

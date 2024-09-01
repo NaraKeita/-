@@ -14,7 +14,9 @@ TitleScene::~TitleScene() {
 //初期化
 void TitleScene::Initialize() { 
 	modelFont_ = Model::CreateFromOBJ("titleFont"); 
+	modelFont_ = Model::CreateFromOBJ("spaceKey"); 
 	modelPlayer_ = Model::CreateFromOBJ("player");
+	
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -25,30 +27,36 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	worldTransformFont_.translation_.y = 10;//プレイヤーの位置.x
-	worldTransformPlayer_.translation_.y = -8;//プレイヤーの位置.y
+	worldTransformPlayer_.translation_.y = -5;//プレイヤーの位置.y
 	worldTransformFont_.scale_ = {2, 2, 2};//文字の大きさ
+	worldTransformFont_.scale_.x = std::numbers::pi_v<float>;
 	worldTransformPlayer_.scale_ = {10, 10, 10};//プレイヤーの大きさ
 	worldTransformPlayer_.rotation_.y = std::numbers::pi_v<float>;
 }
 
 //更新
 void TitleScene::Update() {
+	finished_ = false;
 	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 		finished_ = true;
 	}
-
+	
 	//タイマーを加算
 	timer_ += 1.0f / 60.0f;
 
-	worldTransformPlayer_.rotation_.y = std::numbers::pi_v<float> + std::sin(std::numbers::pi_v<float> * 2.0f * timer_ / kMotionTime);
+	worldTransformPlayer_.rotation_.y = std::numbers::pi_v<float> + std::sin(/*std::numbers::pi_v<float> **/ 2.0f * timer_ / kMotionTime);
+
+	worldTransformFont_.scale_.x = std::numbers::pi_v<float> + std::sin(std::numbers::pi_v<float> * 2.0f * timer_ / kMotionTime);
 
 	//行列を更新
 	worldTransformFont_.UpdateMatrix();
 	worldTransformPlayer_.UpdateMatrix();
+	
 }
 
 //描画
 void TitleScene::Draw() {
+	
 	//コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -61,4 +69,5 @@ void TitleScene::Draw() {
 
 	//3Dオブジェクト描画後処理
 	Model::PostDraw();
+	
 }
